@@ -1,9 +1,11 @@
 package pl.mlata.financecontrolservice.persistance.repository;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-import com.jayway.jsonpath.internal.path.ArraySliceOperation.Operation;
+import pl.mlata.financecontrolservice.persistance.model.Operation;
 
+@Repository
 public interface OperationRepository extends CrudRepository<Operation, Long> {
 
 }
