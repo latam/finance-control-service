@@ -1,4 +1,4 @@
-package pl.mlata.financecontrolservice.web.service;
+package pl.mlata.financecontrolservice.rest.service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

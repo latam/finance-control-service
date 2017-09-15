@@ -1,4 +1,4 @@
-package pl.mlata.financecontrolservice.web.dto;
+package pl.mlata.financecontrolservice.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

@@ -13,7 +13,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import pl.mlata.financecontrolservice.persistance.model.User;
-import pl.mlata.financecontrolservice.web.service.UserService;
+import pl.mlata.financecontrolservice.rest.service.UserService;
 
 @Component
 public class JwtLoginAuthenticationProvider implements AuthenticationProvider {

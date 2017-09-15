@@ -23,7 +23,7 @@ import pl.mlata.financecontrolservice.configuration.security.authentication.JwtL
 import pl.mlata.financecontrolservice.configuration.security.authentication.JwtLoginFilter;
 import pl.mlata.financecontrolservice.configuration.security.authentication.JwtTokenAuthenticationProcessingFilter;
 import pl.mlata.financecontrolservice.configuration.security.authentication.extractor.TokenExtractor;
-import pl.mlata.financecontrolservice.web.service.TokenAuthenticationService;
+import pl.mlata.financecontrolservice.rest.service.TokenAuthenticationService;
 
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {

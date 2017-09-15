@@ -3,8 +3,8 @@ package pl.mlata.financecontrolservice.configuration.security.authentication;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pl.mlata.financecontrolservice.exception.JwtExpiredTokenException;
-import pl.mlata.financecontrolservice.web.dto.ErrorCode;
-import pl.mlata.financecontrolservice.web.dto.ErrorResponse;
+import pl.mlata.financecontrolservice.rest.dto.ErrorCode;
+import pl.mlata.financecontrolservice.rest.dto.ErrorResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

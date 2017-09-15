@@ -5,7 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
-import pl.mlata.financecontrolservice.web.service.TokenAuthenticationService;
+import pl.mlata.financecontrolservice.rest.service.TokenAuthenticationService;
 
 
 @Component

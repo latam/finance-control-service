@@ -2,8 +2,8 @@ package pl.mlata.financecontrolservice.configuration.security.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import pl.mlata.financecontrolservice.web.dto.AccountCredentials;
-import pl.mlata.financecontrolservice.web.service.TokenAuthenticationService;
+import pl.mlata.financecontrolservice.rest.dto.AccountCredentials;
+import pl.mlata.financecontrolservice.rest.service.TokenAuthenticationService;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;

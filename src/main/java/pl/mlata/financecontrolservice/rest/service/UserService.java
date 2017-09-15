@@ -1,7 +1,8 @@
-package pl.mlata.financecontrolservice.web.service;
+package pl.mlata.financecontrolservice.rest.service;
 
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,20 +12,30 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.mlata.financecontrolservice.configuration.security.authentication.JwtTokenAuthentication;
 import pl.mlata.financecontrolservice.persistance.model.User;
 import pl.mlata.financecontrolservice.persistance.repository.UserRepository;
+import pl.mlata.financecontrolservice.rest.dto.RegistrationData;
 
 @Service
 public class UserService {
 	private UserRepository userRepository;
 	private PasswordEncoder passwordEncoder;
+	private ModelMapper modelMapper;
 	
+	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
+		
+		modelMapper = new ModelMapper();
+	}
+
 	public User getByEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
         return user.orElseThrow(() -> new UsernameNotFoundException("User '" + email + "' not found."));
     }
 	
 	@Transactional
-    public void registerNewAccount(User userData) {
-        String encodedPassword = passwordEncoder.encode(userData.getPassword());
+    public void registerNewAccount(RegistrationData registrationData) {
+        String encodedPassword = passwordEncoder.encode(registrationData.getPassword());
+        User userData = modelMapper.map(registrationData, User.class);
         userData.setPassword(encodedPassword);
 
         userData = userRepository.save(userData);

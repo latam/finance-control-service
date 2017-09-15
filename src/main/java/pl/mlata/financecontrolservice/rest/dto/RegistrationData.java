@@ -1,4 +1,4 @@
-package pl.mlata.financecontrolservice.web.dto;
+package pl.mlata.financecontrolservice.rest.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
