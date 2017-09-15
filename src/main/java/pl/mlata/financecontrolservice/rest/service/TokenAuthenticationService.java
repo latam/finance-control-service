@@ -40,9 +40,9 @@ public class TokenAuthenticationService {
         this.objectMapper = objectMapper;
     }
 
-    public void addAuthentication(HttpServletResponse response, String username) throws IOException {
+    public void addAuthentication(HttpServletResponse response, String email) throws IOException {
 
-        if (StringUtils.isBlank(username))
+        if (StringUtils.isBlank(email))
             throw new IllegalArgumentException("Username cannot be empty.");
 
         Date currentTime = Date.from(
@@ -54,7 +54,7 @@ public class TokenAuthenticationService {
 
 
         String jwtBody = Jwts.builder()
-                .setSubject(username)
+                .setSubject(email)
                 .setIssuer(jwtSettings.getIssuer())
                 .setIssuedAt(currentTime)
                 .setExpiration(expirationDate)

@@ -25,6 +25,7 @@
 		
 		<modelmapper.version>1.1.0</modelmapper.version>
 		<jjwt.version>0.7.0</jjwt.version>
+		<mockito.version>1.10.19</mockito.version>
 	</properties>
 
 	<dependencies>
@@ -93,6 +94,27 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+		
 	</dependencies>
 
 	<build>
