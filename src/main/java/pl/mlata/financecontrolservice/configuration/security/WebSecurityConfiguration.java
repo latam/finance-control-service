@@ -1,4 +1,4 @@
-package pl.mlata.financecontrolservice.configuration;
+package pl.mlata.financecontrolservice.configuration.security;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,8 +16,6 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
 
-import pl.mlata.financecontrolservice.configuration.security.RestAuthenticationEntryPoint;
-import pl.mlata.financecontrolservice.configuration.security.SkipRequestPathMatcher;
 import pl.mlata.financecontrolservice.configuration.security.authentication.JwtAuthenticationProvider;
 import pl.mlata.financecontrolservice.configuration.security.authentication.JwtLoginAuthenticationProvider;
 import pl.mlata.financecontrolservice.configuration.security.authentication.JwtLoginFilter;
@@ -44,6 +42,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final String loginEntryPoint = "/auth/login";
     private final String registrationEntryPoint = "/auth/registration";
+    private final String h2consoleEntryPoint = "/h2-console/**";
 
     protected JwtLoginFilter buildJwtLoginFilter() throws Exception {
         JwtLoginFilter filter = new JwtLoginFilter(loginEntryPoint, this.authenticationManager(), failureHandler, tokenAuthenticationService);
@@ -51,7 +50,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     protected JwtTokenAuthenticationProcessingFilter buildJwtAuthenticationProcessingFilter() throws Exception {
-        List<String> pathsToSkip = Arrays.asList(loginEntryPoint, registrationEntryPoint, "api/h2-console/**");
+        List<String> pathsToSkip = Arrays.asList(loginEntryPoint, registrationEntryPoint, h2consoleEntryPoint);
         SkipRequestPathMatcher matcher = new SkipRequestPathMatcher(pathsToSkip, "/**");
         JwtTokenAuthenticationProcessingFilter filter
                 = new JwtTokenAuthenticationProcessingFilter(matcher, failureHandler, tokenExtractor);
@@ -81,7 +80,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(loginEntryPoint, registrationEntryPoint, "api/h2-console/**").permitAll()
+                .antMatchers(loginEntryPoint, registrationEntryPoint, h2consoleEntryPoint).permitAll()
                 .and()
                 .authorizeRequests()
                 .antMatchers("/**").authenticated()

@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import global.UserRoles;
 import pl.mlata.financecontrolservice.configuration.security.authentication.JwtTokenAuthentication;
 import pl.mlata.financecontrolservice.persistance.model.User;
 import pl.mlata.financecontrolservice.persistance.repository.UserRepository;
@@ -37,7 +38,8 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(registrationData.getPassword());
         User userData = modelMapper.map(registrationData, User.class);
         userData.setPassword(encodedPassword);
-
+        userData.setRoles(UserRoles.User.toString());
+        
         userData = userRepository.save(userData);
     }
 
