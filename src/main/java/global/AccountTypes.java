@@ -1,8 +1,8 @@
 package global;
 
 public enum AccountTypes {
-	Income("income"),
-	Expense("expense");
+	Income("INCOME"),
+	Expense("EXPENSE");
     
     private final String value;
     AccountTypes(final String value) {

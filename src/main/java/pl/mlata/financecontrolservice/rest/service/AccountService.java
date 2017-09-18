@@ -24,7 +24,11 @@ public class AccountService {
 	}
 	
 	public List<Account> getMultiple(List<Long> ids) {
-		return accountRepository.findByIdIn(ids);
+		return accountRepository.findByIdInAndUser(ids, getCurrentUser());
+	}
+	
+	public List<Account> getRootAccounts() {
+		return accountRepository.findByParentAccountIsNullAndUser(getCurrentUser());
 	}
 	
 	public Account getOne(Long id) throws ResourceNotFoundException {

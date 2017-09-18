@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import pl.mlata.financecontrolservice.persistance.model.Account;
 import pl.mlata.financecontrolservice.rest.dto.AccountData;
 import pl.mlata.financecontrolservice.rest.service.AccountService;
-import pl.mlata.financecontrolservice.rest.service.SaldoService;
 import pl.mlata.financecontrolservice.rest.service.UserService;
 
 @Component

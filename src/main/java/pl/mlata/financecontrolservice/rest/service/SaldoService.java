@@ -9,8 +9,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
+import global.AccountTypes;
 import pl.mlata.financecontrolservice.persistance.model.Account;
 import pl.mlata.financecontrolservice.persistance.model.Operation;
+import pl.mlata.financecontrolservice.rest.dto.SaldoSummary;
 
 @Service
 @Scope(value="request", proxyMode= ScopedProxyMode.TARGET_CLASS)
@@ -25,6 +27,26 @@ public class SaldoService {
 		this.operationService = operationService;
 		
 		accountsSaldos = new HashMap<>();
+	}
+	
+	public SaldoSummary calculateSaldoSummary() throws Exception {
+		SaldoSummary summary = new SaldoSummary();
+		List<Account> rootAccounts = accountService.getRootAccounts();
+		for(Account account : rootAccounts) {
+			BigDecimal value = calculateFundsForAccount(account.getId());
+			
+			if(account.getType().equals(AccountTypes.Expense.toString())) {
+				summary.setTotalExpense(value);
+			}
+			else if(account.getType().equals(AccountTypes.Income.toString())) {
+				summary.setTotalIncome(value);
+			}
+		}
+		
+		BigDecimal saldo = summary.getTotalIncome().subtract(summary.getTotalExpense());
+		summary.setSaldo(saldo);
+		
+		return summary;
 	}
 	
 	public BigDecimal calculateFundsForAccount(Long accountId) throws Exception {

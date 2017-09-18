@@ -11,5 +11,6 @@ import pl.mlata.financecontrolservice.persistance.model.User;
 @Repository
 public interface AccountRepository extends CrudRepository<Account, Long> {
 	List<Account> findByUser(User user);
-	List<Account> findByIdIn(List<Long> ids);
+	List<Account> findByIdInAndUser(List<Long> ids, User user);
+	List<Account> findByParentAccountIsNullAndUser(User user);
 }
