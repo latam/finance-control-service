@@ -32,7 +32,7 @@ public class Operation {
 	private String type;
 	
 	@Column
-	private LocalDateTime date;
+	private String date;
 	
 	@ManyToOne
 	@JoinColumn(name="to_account_id", nullable=false)
@@ -42,5 +42,5 @@ public class Operation {
 	private Account fromAccount;
 	
 	@Column
-	private BigDecimal amount;
+	private BigDecimal funds;
 }

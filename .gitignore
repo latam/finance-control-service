@@ -25,3 +25,4 @@ nbdist/
 test-output/
 .dbeaver-data-sources.xml
 database.mv.db
+database.trace.db
