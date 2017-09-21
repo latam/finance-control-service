@@ -7,14 +7,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import global.UserRoles;
 import pl.mlata.financecontrolservice.configuration.security.authentication.JwtTokenAuthentication;
 import pl.mlata.financecontrolservice.persistance.model.User;
 import pl.mlata.financecontrolservice.persistance.repository.UserRepository;
 import pl.mlata.financecontrolservice.rest.dto.RegistrationData;
-import pl.mlata.financecontrolservice.rest.dto.UserData;
 
 @Service
 public class UserService {
@@ -34,21 +32,19 @@ public class UserService {
         return user.orElseThrow(() -> new UsernameNotFoundException("User '" + email + "' not found."));
     }
 	
-	@Transactional
-    public UserData registerNewAccount(RegistrationData registrationData) {
+    public void registerNewAccount(RegistrationData registrationData) {
         String encodedPassword = passwordEncoder.encode(registrationData.getPassword());
         User userData = modelMapper.map(registrationData, User.class);
         userData.setPassword(encodedPassword);
         userData.setRoles(UserRoles.User.toString());
         
-        userData = userRepository.save(userData);
-        return modelMapper.map(userData, UserData.class);
+        userRepository.save(userData);
     }
 
     public User getCurrentUser() {
         JwtTokenAuthentication userAuth = (JwtTokenAuthentication) SecurityContextHolder.getContext().getAuthentication();
         User user = (User) userAuth.getPrincipal();
-
+    
         return user;
     }
 }
