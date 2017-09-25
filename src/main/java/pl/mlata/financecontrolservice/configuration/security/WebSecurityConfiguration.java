@@ -92,6 +92,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         buildJwtAuthenticationProcessingFilter(),
                         UsernamePasswordAuthenticationFilter.class)
         .addFilterBefore(corsFilter, ChannelProcessingFilter.class);
+       
+        http.headers().frameOptions().disable();
     }
 
 }

@@ -2,7 +2,7 @@ package pl.mlata.financecontrolservice.configuration.security.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import pl.mlata.financecontrolservice.rest.dto.AccountCredentials;
+import pl.mlata.financecontrolservice.rest.dto.UserCredentials;
 import pl.mlata.financecontrolservice.rest.service.TokenAuthenticationService;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,8 +38,8 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
             throws AuthenticationException, IOException, ServletException {
-        AccountCredentials credentials = new ObjectMapper()
-                .readValue(httpServletRequest.getInputStream(), AccountCredentials.class);
+        UserCredentials credentials = new ObjectMapper()
+                .readValue(httpServletRequest.getInputStream(), UserCredentials.class);
 
         if (StringUtils.isEmpty(credentials.getEmail()) || StringUtils.isEmpty(credentials.getPassword())) {
             throw new AuthenticationServiceException("Username or Password not provided");
