@@ -11,12 +11,11 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountData {
+public class AccountDto {
 	private Long id;
 	private String type;
 	private String name;
 	private String description;
-	private Long parentId;
-	private List<Long> childAccountsId;
+	private List<AccountDto> childAccounts;
 	private BigDecimal funds;
 }

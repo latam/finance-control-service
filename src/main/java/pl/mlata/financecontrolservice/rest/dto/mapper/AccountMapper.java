@@ -1,5 +1,6 @@
 package pl.mlata.financecontrolservice.rest.dto.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,50 +8,44 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import pl.mlata.financecontrolservice.persistance.model.Account;
-import pl.mlata.financecontrolservice.rest.dto.AccountData;
+import pl.mlata.financecontrolservice.rest.dto.AccountDto;
 import pl.mlata.financecontrolservice.rest.service.AccountService;
+import pl.mlata.financecontrolservice.rest.service.SaldoHelper;
+import pl.mlata.financecontrolservice.rest.service.SaldoService;
 import pl.mlata.financecontrolservice.rest.service.UserService;
 
 @Component
-public class AccountMapper implements DataObjectMapper<Account, AccountData> {
-	private AccountService accountService;
+public class AccountMapper implements DataObjectMapper<Account, AccountDto> {
 	private UserService userService;
+	private SaldoHelper saldoHelper;
 	private ModelMapper modelMapper;
-	
-	public AccountMapper(AccountService accountService, UserService userService) {
-		this.accountService = accountService;
+
+	public AccountMapper(UserService userService, SaldoHelper saldoHelper) {
 		this.userService = userService;
-		
+		this.saldoHelper = saldoHelper;
+
 		modelMapper = new ModelMapper();
 	}
 
 	@Override
-	public Account mapTo(AccountData accountData) throws Exception {
-		Account account = modelMapper.map(accountData, Account.class);
+	public Account mapTo(AccountDto accountDto) throws Exception {
+		Account account = modelMapper.map(accountDto, Account.class);
 		Account parentAccount = null;
-		if(accountData.getParentId() != null) {
-			parentAccount = accountService.getOne(accountData.getParentId());
-		}
 		account.setParentAccount(parentAccount);
-		
-		List<Account> childAccounts = accountService.getMultiple(accountData.getChildAccountsId());
-		account.setChildAccounts(childAccounts);
+
 		account.setUser(userService.getCurrentUser());
 		return account;
 	}
 
 	@Override
-	public AccountData mapFrom(Account account) throws Exception {
-		AccountData accountData = modelMapper.map(account, AccountData.class);
-		
-		List<Long> childrenIds = account.getChildAccounts().stream()
-				.map(Account::getId)
-				.collect(Collectors.toList());
-		accountData.setChildAccountsId(childrenIds);
-		if(account.getParentAccount() != null) {
-			accountData.setParentId(account.getParentAccount().getId());
+	public AccountDto mapFrom(Account account) throws Exception {
+		AccountDto accountDto = modelMapper.map(account, AccountDto.class);
+		List<AccountDto> childrenAccountsDtos = new ArrayList<>();
+		for(Account childAccount : account.getChildAccounts()) {
+			childrenAccountsDtos.add(mapFrom(childAccount));
 		}
-		
-		return accountData;
+		accountDto.setFunds(saldoHelper.calculateFundsForAccount(account));
+		accountDto.setChildAccounts(childrenAccountsDtos);
+		return accountDto;
 	}
 }

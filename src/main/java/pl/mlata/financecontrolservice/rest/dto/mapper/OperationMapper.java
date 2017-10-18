@@ -5,18 +5,19 @@ import org.springframework.stereotype.Component;
 
 import pl.mlata.financecontrolservice.persistance.model.Account;
 import pl.mlata.financecontrolservice.persistance.model.Operation;
+import pl.mlata.financecontrolservice.persistance.repository.AccountRepository;
 import pl.mlata.financecontrolservice.rest.dto.OperationData;
 import pl.mlata.financecontrolservice.rest.service.AccountService;
 import pl.mlata.financecontrolservice.rest.service.UserService;
 
 @Component
 public class OperationMapper implements DataObjectMapper<Operation, OperationData> {
-	private AccountService accountService;
 	private UserService userService;
+	private AccountRepository accountRepository;
 	private ModelMapper modelMapper;
 	
-	public OperationMapper(AccountService accountService, UserService userService) {
-		this.accountService = accountService;
+	public OperationMapper(AccountRepository accountRepository, UserService userService) {
+		this.accountRepository = accountRepository;
 		this.userService = userService;
 		
 		modelMapper = new ModelMapper();
@@ -25,10 +26,10 @@ public class OperationMapper implements DataObjectMapper<Operation, OperationDat
 	@Override
 	public Operation mapTo(OperationData operationData) throws Exception {
 		Operation operation = modelMapper.map(operationData, Operation.class);
-		Account toAccount = accountService.getOne(operationData.getToAccountId());
+		Account toAccount = accountRepository.findOne(operationData.getToAccountId());
 		Account fromAccount = null;
 		if(operationData.getFromAccountId() != null) {
-			fromAccount = accountService.getOne(operationData.getFromAccountId());
+			fromAccount = accountRepository.findOne(operationData.getFromAccountId());
 		}
 		
 		operation.setUser(userService.getCurrentUser());
